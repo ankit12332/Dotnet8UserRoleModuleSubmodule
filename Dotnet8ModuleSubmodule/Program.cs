@@ -1,9 +1,7 @@
 using Dotnet8ModuleSubmodule.Data.Context;
-using Dotnet8ModuleSubmodule.Entities;
 using Dotnet8ModuleSubmodule.Interface;
 using Dotnet8ModuleSubmodule.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -17,7 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Add services to the container.
+// Add JWT Configuration
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -40,7 +38,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Configure Repository with dependency injection
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
-builder.Services.AddScoped<IAssignRoleRepository, AssignRoleRepository>();
+builder.Services.AddScoped<IAssignRoleToUserRepository, AssignRoleToUserRepository>();
+builder.Services.AddScoped<IAssignRoleToModuleRepository, AssignRoleToModuleRepository>();
 
 var app = builder.Build();
 

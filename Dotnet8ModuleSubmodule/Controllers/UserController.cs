@@ -43,8 +43,16 @@ namespace Dotnet8ModuleSubmodule.Controllers
                 Roles = user.Roles.Select(r => new RoleDto
                 {
                     Id = r.Id,
-                    RoleName = r.RoleName
+                    RoleName = r.RoleName,
                     // Map other role properties...
+
+                    Modules = r.Modules.Select(m => new ModuleDto
+                    {
+                        Id = m.Id,
+                        Name = m.ModuleName,
+                        Description = m.Description
+                        // Map other module properties...
+                    }).ToList()
                 }).ToList()
             };
 

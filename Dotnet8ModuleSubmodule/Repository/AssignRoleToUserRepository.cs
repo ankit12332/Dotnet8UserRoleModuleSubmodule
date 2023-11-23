@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Dotnet8ModuleSubmodule.Repository
 {
-    public class AssignRoleRepository : IAssignRoleRepository
+    public class AssignRoleToUserRepository : IAssignRoleToUserRepository
     {
         private readonly AppDbContext _context;
 
-        public AssignRoleRepository(AppDbContext dbContext)
+        public AssignRoleToUserRepository(AppDbContext dbContext)
         {
             _context = dbContext;
         }
-        public async Task AssignRolesToUserAsync(RoleAssignmentDto roleAssignment)
+        public async Task AssignRolesToUserAsync(RoleUserAssignmentDto roleAssignment)
         {
             var user = await _context.Users.Include(u => u.Roles).FirstOrDefaultAsync(u => u.Id == roleAssignment.UserId);
 

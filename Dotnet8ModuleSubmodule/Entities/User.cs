@@ -15,6 +15,7 @@ namespace Dotnet8ModuleSubmodule.Entities
         public string? Password { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+        // Implicit Many-to-Many Relationship
         [JsonIgnore]
         public virtual ICollection<Role> Roles { get; set; }
     }
