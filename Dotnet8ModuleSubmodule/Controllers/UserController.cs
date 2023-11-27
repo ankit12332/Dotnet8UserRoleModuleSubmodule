@@ -50,8 +50,15 @@ namespace Dotnet8ModuleSubmodule.Controllers
                     {
                         Id = m.Id,
                         Name = m.ModuleName,
-                        Description = m.Description
+                        Description = m.Description,
                         // Map other module properties...
+                        SubModules = m.ModuleSubModules.Select(msm => new SubModuleDto
+                        {
+                            Id = msm.SubModule.Id,
+                            Name = msm.SubModule.SubModuleName,
+                            Description = msm.SubModule.Description
+                            // Map other module properties...
+                        }).ToList()
                     }).ToList()
                 }).ToList()
             };

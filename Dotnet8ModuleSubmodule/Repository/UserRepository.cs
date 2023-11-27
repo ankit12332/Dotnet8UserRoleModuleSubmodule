@@ -23,7 +23,9 @@ namespace Dotnet8ModuleSubmodule.Repository
         {
             return await _context.Users
                          .Include(u => u.Roles) // Eager loading of roles
-                         .ThenInclude(r => r.Modules)
+                             .ThenInclude(r => r.Modules)
+                                .ThenInclude(m => m.ModuleSubModules)
+                                    .ThenInclude(msm => msm.SubModule)
                          .FirstOrDefaultAsync(u => u.Id == id);
         }
 

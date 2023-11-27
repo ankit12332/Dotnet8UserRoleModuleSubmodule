@@ -40,6 +40,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IAssignRoleToUserRepository, AssignRoleToUserRepository>();
 builder.Services.AddScoped<IAssignRoleToModuleRepository, AssignRoleToModuleRepository>();
+builder.Services.AddScoped<IAssignModuleToSubModuleRepository, AssignModuleToSubModuleRepository>();
+builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
 
 var app = builder.Build();
 

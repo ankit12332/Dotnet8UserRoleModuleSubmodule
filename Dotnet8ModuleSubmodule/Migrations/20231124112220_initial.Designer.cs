@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dotnet8ModuleSubmodule.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231123111409_Module")]
-    partial class Module
+    [Migration("20231124112220_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,6 +65,47 @@ namespace Dotnet8ModuleSubmodule.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("Dotnet8ModuleSubmodule.Entities.SubModule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SubModuleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModuleId");
+
+                    b.ToTable("SubModules");
+                });
+
+            modelBuilder.Entity("Dotnet8ModuleSubmodule.Entities.Tagging.ModuleSubModuleTagging", b =>
+                {
+                    b.Property<int>("ModuleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubModuleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ModuleId", "SubModuleId");
+
+                    b.HasIndex("SubModuleId");
+
+                    b.ToTable("ModuleSubModuleTaggings");
                 });
 
             modelBuilder.Entity("Dotnet8ModuleSubmodule.Entities.User", b =>
@@ -122,6 +163,36 @@ namespace Dotnet8ModuleSubmodule.Migrations
                     b.ToTable("RoleUser");
                 });
 
+            modelBuilder.Entity("Dotnet8ModuleSubmodule.Entities.SubModule", b =>
+                {
+                    b.HasOne("Dotnet8ModuleSubmodule.Entities.Module", "Module")
+                        .WithMany("SubModules")
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Module");
+                });
+
+            modelBuilder.Entity("Dotnet8ModuleSubmodule.Entities.Tagging.ModuleSubModuleTagging", b =>
+                {
+                    b.HasOne("Dotnet8ModuleSubmodule.Entities.Module", "Module")
+                        .WithMany("ModuleSubModules")
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Dotnet8ModuleSubmodule.Entities.SubModule", "SubModule")
+                        .WithMany("ModuleSubModules")
+                        .HasForeignKey("SubModuleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Module");
+
+                    b.Navigation("SubModule");
+                });
+
             modelBuilder.Entity("ModuleRole", b =>
                 {
                     b.HasOne("Dotnet8ModuleSubmodule.Entities.Module", null)
@@ -150,6 +221,18 @@ namespace Dotnet8ModuleSubmodule.Migrations
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Dotnet8ModuleSubmodule.Entities.Module", b =>
+                {
+                    b.Navigation("ModuleSubModules");
+
+                    b.Navigation("SubModules");
+                });
+
+            modelBuilder.Entity("Dotnet8ModuleSubmodule.Entities.SubModule", b =>
+                {
+                    b.Navigation("ModuleSubModules");
                 });
 #pragma warning restore 612, 618
         }
